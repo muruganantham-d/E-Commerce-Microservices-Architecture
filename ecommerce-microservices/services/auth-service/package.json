@@ -1,0 +1,26 @@
+﻿{
+  "name": "@ecom/auth-service",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "echo test placeholder",
+    "lint": "echo lint placeholder"
+  },
+  "dependencies": {
+    "@ecom/common": "workspace:*",
+    "@ecom/contracts": "workspace:*",
+    "@grpc/grpc-js": "^1.11.3",
+    "@grpc/proto-loader": "^0.7.13",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "kafkajs": "^2.2.4",
+    "mongoose": "^8.7.0",
+    "redis": "^4.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

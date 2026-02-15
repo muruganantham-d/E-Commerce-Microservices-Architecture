@@ -1,0 +1,78 @@
+﻿version: "3.9"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  auth-mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - auth_mongo_data:/data/db
+
+  product-mongo:
+    image: mongo:7
+    ports:
+      - "27018:27017"
+    volumes:
+      - product_mongo_data:/data/db
+
+  order-mongo:
+    image: mongo:7
+    ports:
+      - "27019:27017"
+    volumes:
+      - order_mongo_data:/data/db
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: docker/auth-service.Dockerfile
+    depends_on:
+      - kafka
+      - redis
+      - auth-mongo
+
+  product-service:
+    build:
+      context: .
+      dockerfile: docker/product-service.Dockerfile
+    depends_on:
+      - kafka
+      - redis
+      - product-mongo
+
+  order-service:
+    build:
+      context: .
+      dockerfile: docker/order-service.Dockerfile
+    depends_on:
+      - kafka
+      - redis
+      - order-mongo
+
+volumes:
+  auth_mongo_data:
+  product_mongo_data:
+  order_mongo_data:
