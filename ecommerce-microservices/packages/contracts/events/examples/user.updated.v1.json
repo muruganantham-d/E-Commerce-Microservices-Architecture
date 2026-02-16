@@ -1,0 +1,15 @@
+{
+  "eventId": "b7089f16-cf6a-48eb-8cc8-4b6037029db1",
+  "eventType": "user.updated",
+  "timestamp": "2026-02-16T10:21:00.000Z",
+  "version": "v1",
+  "source": "auth-service",
+  "payload": {
+    "userId": "usr_1001",
+    "changes": {
+      "emailVerified": true,
+      "status": "active"
+    },
+    "updatedAt": "2026-02-16T10:20:59.000Z"
+  }
+}

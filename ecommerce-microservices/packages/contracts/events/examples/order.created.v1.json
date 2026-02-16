@@ -1,0 +1,22 @@
+{
+  "eventId": "ca9f27a1-e5aa-4959-97c0-992fe2248c4f",
+  "eventType": "order.created",
+  "timestamp": "2026-02-16T10:25:00.000Z",
+  "version": "v1",
+  "source": "order-service",
+  "payload": {
+    "orderId": "ord_3001",
+    "userId": "usr_1001",
+    "items": [
+      {
+        "productId": "prd_2001",
+        "quantity": 2,
+        "unitPrice": 34.99
+      }
+    ],
+    "totalAmount": 69.98,
+    "currency": "USD",
+    "status": "created",
+    "createdAt": "2026-02-16T10:24:59.000Z"
+  }
+}

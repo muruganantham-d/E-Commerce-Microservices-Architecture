@@ -2,5 +2,5 @@
   "name": "@ecom/contracts",
   "version": "0.1.0",
   "private": true,
-  "main": "events/topics.js"
+  "main": "events/index.js"
 }

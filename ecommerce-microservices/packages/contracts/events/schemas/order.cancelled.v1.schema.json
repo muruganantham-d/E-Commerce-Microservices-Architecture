@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecom.contracts/events/order.cancelled.v1.schema.json",
+  "title": "order.cancelled.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "timestamp", "version", "source", "payload"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "const": "order.cancelled" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "version": { "const": "v1" },
+    "source": { "const": "order-service" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["orderId", "reason", "cancelledBy", "refundRequired", "cancelledAt"],
+      "properties": {
+        "orderId": { "type": "string" },
+        "reason": { "type": "string" },
+        "cancelledBy": { "type": "string", "enum": ["system", "user", "admin"] },
+        "refundRequired": { "type": "boolean" },
+        "cancelledAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "eventId": "67f9ecf8-11f4-4528-a751-01cc7527ec89",
+      "eventType": "order.cancelled",
+      "timestamp": "2026-02-16T10:26:00.000Z",
+      "version": "v1",
+      "source": "order-service",
+      "payload": {
+        "orderId": "ord_3001",
+        "reason": "inventory_unavailable",
+        "cancelledBy": "system",
+        "refundRequired": false,
+        "cancelledAt": "2026-02-16T10:25:59.000Z"
+      }
+    }
+  ]
+}

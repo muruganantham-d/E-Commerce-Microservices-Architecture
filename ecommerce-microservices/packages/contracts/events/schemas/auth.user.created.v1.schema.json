@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecom.contracts/events/auth.user.created.v1.schema.json",
+  "title": "auth.user.created.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "timestamp", "version", "source", "payload"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "const": "user.created" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "version": { "const": "v1" },
+    "source": { "const": "auth-service" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["userId", "email", "roles", "status", "createdAt"],
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "status": { "type": "string", "enum": ["active", "inactive", "blocked"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "eventId": "0d2c0bb3-f4f2-4ec8-8d04-31834258a671",
+      "eventType": "user.created",
+      "timestamp": "2026-02-16T10:20:00.000Z",
+      "version": "v1",
+      "source": "auth-service",
+      "payload": {
+        "userId": "usr_1001",
+        "email": "alice@example.com",
+        "roles": ["customer"],
+        "status": "active",
+        "createdAt": "2026-02-16T10:19:59.000Z"
+      }
+    }
+  ]
+}

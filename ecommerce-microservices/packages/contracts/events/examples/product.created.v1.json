@@ -1,0 +1,16 @@
+{
+  "eventId": "68c4d307-6e12-4f9b-8a87-5856a8ec2e3f",
+  "eventType": "product.created",
+  "timestamp": "2026-02-16T10:22:00.000Z",
+  "version": "v1",
+  "source": "product-service",
+  "payload": {
+    "productId": "prd_2001",
+    "sku": "SKU-2001",
+    "name": "Wireless Mouse",
+    "price": 29.99,
+    "currency": "USD",
+    "isActive": true,
+    "createdAt": "2026-02-16T10:21:59.000Z"
+  }
+}

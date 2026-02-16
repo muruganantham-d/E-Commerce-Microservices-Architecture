@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecom.contracts/events/product.updated.v1.schema.json",
+  "title": "product.updated.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "timestamp", "version", "source", "payload"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "const": "product.updated" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "version": { "const": "v1" },
+    "source": { "const": "product-service" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productId", "changes", "updatedAt"],
+      "properties": {
+        "productId": { "type": "string" },
+        "changes": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "name": { "type": "string" },
+            "price": { "type": "number", "minimum": 0 },
+            "currency": { "type": "string", "minLength": 3, "maxLength": 3 },
+            "isActive": { "type": "boolean" },
+            "sku": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "eventId": "bc4295de-0956-4229-b412-b78ff3b5cc97",
+      "eventType": "product.updated",
+      "timestamp": "2026-02-16T10:23:00.000Z",
+      "version": "v1",
+      "source": "product-service",
+      "payload": {
+        "productId": "prd_2001",
+        "changes": {
+          "name": "Wireless Mouse Pro",
+          "price": 34.99,
+          "isActive": true
+        },
+        "updatedAt": "2026-02-16T10:22:59.000Z"
+      }
+    }
+  ]
+}

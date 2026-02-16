@@ -1,0 +1,14 @@
+{
+  "eventId": "67f9ecf8-11f4-4528-a751-01cc7527ec89",
+  "eventType": "order.cancelled",
+  "timestamp": "2026-02-16T10:26:00.000Z",
+  "version": "v1",
+  "source": "order-service",
+  "payload": {
+    "orderId": "ord_3001",
+    "reason": "inventory_unavailable",
+    "cancelledBy": "system",
+    "refundRequired": false,
+    "cancelledAt": "2026-02-16T10:25:59.000Z"
+  }
+}

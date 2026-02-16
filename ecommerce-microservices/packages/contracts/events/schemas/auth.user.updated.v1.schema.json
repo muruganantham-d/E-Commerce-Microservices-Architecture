@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecom.contracts/events/auth.user.updated.v1.schema.json",
+  "title": "auth.user.updated.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["eventId", "eventType", "timestamp", "version", "source", "payload"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "eventType": { "const": "user.updated" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "version": { "const": "v1" },
+    "source": { "const": "auth-service" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["userId", "changes", "updatedAt"],
+      "properties": {
+        "userId": { "type": "string" },
+        "changes": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "email": { "type": "string", "format": "email" },
+            "emailVerified": { "type": "boolean" },
+            "status": { "type": "string", "enum": ["active", "inactive", "blocked"] },
+            "roles": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "examples": [
+    {
+      "eventId": "b7089f16-cf6a-48eb-8cc8-4b6037029db1",
+      "eventType": "user.updated",
+      "timestamp": "2026-02-16T10:21:00.000Z",
+      "version": "v1",
+      "source": "auth-service",
+      "payload": {
+        "userId": "usr_1001",
+        "changes": {
+          "emailVerified": true,
+          "status": "active"
+        },
+        "updatedAt": "2026-02-16T10:20:59.000Z"
+      }
+    }
+  ]
+}
