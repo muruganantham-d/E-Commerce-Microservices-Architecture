@@ -13,6 +13,8 @@
     "start:product": "npm run start -w services/product-service",
     "start:order": "npm run start -w services/order-service",
     "demo": "node demo-order-flow.js",
+    "demo:idempotency": "node demo-idempotency.js",
+    "demo:kafka-replay": "node demo-kafka-replay.js",
     "demo:order-flow": "node scripts/demo-order-flow.js",
     "build": "npm run -ws build --if-present",
     "test": "npm run -ws test --if-present",

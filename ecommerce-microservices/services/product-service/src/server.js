@@ -147,7 +147,14 @@ async function start() {
     kafka,
     redisClient,
     consumerGroup: env.orderCreatedConsumerGroup,
-    productEventPublisher
+    productEventPublisher,
+    dlqProducer: kafkaProducer,
+    retryPolicy: {
+      maxRetries: env.orderCreatedConsumerRetryMax,
+      initialDelayMs: env.orderCreatedConsumerRetryInitialDelayMs,
+      maxDelayMs: env.orderCreatedConsumerRetryMaxDelayMs,
+      backoffMultiplier: env.orderCreatedConsumerRetryBackoffMultiplier
+    }
   });
 
   const server = app.listen(env.httpPort, "0.0.0.0", () => {

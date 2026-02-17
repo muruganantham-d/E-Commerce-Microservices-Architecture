@@ -104,6 +104,10 @@ async function handleOrderCreated(envelope, { productEventPublisher }) {
       reason: "order_created_consumer",
       updatedAt: new Date().toISOString()
     });
+
+    console.log(
+      `[product-service] order.created inventory update orderId=${orderId} productId=${item.productId} previousQty=${previousQty} newQty=${updated.inventory}`
+    );
   }
 }
 
@@ -111,7 +115,9 @@ async function startOrderCreatedConsumer({
   kafka,
   redisClient,
   consumerGroup,
-  productEventPublisher
+  productEventPublisher,
+  dlqProducer,
+  retryPolicy
 }) {
   const topic = EVENT_TO_TOPIC[EVENT_TYPES.ORDER_CREATED];
   const consumer = kafka.consumer({ groupId: consumerGroup });
@@ -132,11 +138,32 @@ async function startOrderCreatedConsumer({
         validateEnvelope,
         heartbeat,
         commitOffsets: (offsets) => consumer.commitOffsets(offsets),
+        dlqProducer,
+        retryPolicy,
         handleEvent: (envelope) => handleOrderCreated(envelope, { productEventPublisher })
       });
 
+      const eventId = result && result.envelope ? result.envelope.eventId : "unknown";
+      const orderId =
+        result && result.envelope && result.envelope.payload ? result.envelope.payload.orderId : "n/a";
+      const key = message && message.key ? message.key.toString("utf8") : "n/a";
+
+      if (result.status === "duplicate") {
+        console.log(
+          `[product-service] Duplicate prevented eventType=${EVENT_TYPES.ORDER_CREATED} eventId=${eventId} orderId=${orderId} topic=${currentTopic} key=${key}`
+        );
+        return;
+      }
+
+      if (result.status === "dlq") {
+        console.log(
+          `[product-service] Routed to DLQ eventType=${EVENT_TYPES.ORDER_CREATED} eventId=${eventId} orderId=${orderId} topic=${currentTopic} dlqTopic=${result.dlqTopic} classification=${result.classification}`
+        );
+        return;
+      }
+
       console.log(
-        `[product-service] Consumed ${EVENT_TYPES.ORDER_CREATED} status=${result.status} orderId=${result.envelope.payload.orderId}`
+        `[product-service] Consumed eventType=${EVENT_TYPES.ORDER_CREATED} eventId=${eventId} orderId=${orderId} topic=${currentTopic} key=${key} status=${result.status} attempts=${result.attempts || 1}`
       );
     }
   });

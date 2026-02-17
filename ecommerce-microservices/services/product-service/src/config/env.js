@@ -18,5 +18,15 @@ module.exports = {
   kafkaBrokers: parseKafkaBrokers(process.env.KAFKA_BROKERS),
   redisUrl: process.env.REDIS_URL || "redis://localhost:6379",
   orderCreatedConsumerGroup:
-    process.env.ORDER_CREATED_CONSUMER_GROUP || "product-service-order-created-v1"
+    process.env.ORDER_CREATED_CONSUMER_GROUP || "product-service-order-created-v1",
+  orderCreatedConsumerRetryMax: Number(process.env.ORDER_CREATED_CONSUMER_RETRY_MAX || 3),
+  orderCreatedConsumerRetryInitialDelayMs: Number(
+    process.env.ORDER_CREATED_CONSUMER_RETRY_INITIAL_DELAY_MS || 250
+  ),
+  orderCreatedConsumerRetryMaxDelayMs: Number(
+    process.env.ORDER_CREATED_CONSUMER_RETRY_MAX_DELAY_MS || 2000
+  ),
+  orderCreatedConsumerRetryBackoffMultiplier: Number(
+    process.env.ORDER_CREATED_CONSUMER_RETRY_BACKOFF_MULTIPLIER || 2
+  )
 };
