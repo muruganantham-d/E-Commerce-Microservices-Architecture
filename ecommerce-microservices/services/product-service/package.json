@@ -10,10 +10,12 @@
     "lint": "echo lint placeholder"
   },
   "dependencies": {
-    "@ecom/common": "workspace:*",
-    "@ecom/contracts": "workspace:*",
+    "@ecom/common": "file:../../packages/common",
+    "@ecom/contracts": "file:../../packages/contracts",
     "@grpc/grpc-js": "^1.11.3",
     "@grpc/proto-loader": "^0.7.13",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "kafkajs": "^2.2.4",

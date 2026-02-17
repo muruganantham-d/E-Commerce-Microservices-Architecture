@@ -10,8 +10,8 @@
     "lint": "echo lint placeholder"
   },
   "dependencies": {
-    "@ecom/common": "workspace:*",
-    "@ecom/contracts": "workspace:*",
+    "@ecom/common": "file:../../packages/common",
+    "@ecom/contracts": "file:../../packages/contracts",
     "@grpc/grpc-js": "^1.11.3",
     "@grpc/proto-loader": "^0.7.13",
     "dotenv": "^16.4.5",

@@ -16,8 +16,12 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   redis:
     image: redis:7-alpine
@@ -49,6 +53,15 @@ services:
     build:
       context: .
       dockerfile: docker/auth-service.Dockerfile
+    ports:
+      - "4001:4001"
+    environment:
+      SERVICE_NAME: auth-service
+      HTTP_PORT: 4001
+      MONGO_URI: mongodb://auth-mongo:27017/auth_db
+      KAFKA_BROKERS: kafka:9092
+      REDIS_URL: redis://redis:6379
+    restart: on-failure
     depends_on:
       - kafka
       - redis
@@ -58,6 +71,18 @@ services:
     build:
       context: .
       dockerfile: docker/product-service.Dockerfile
+    ports:
+      - "4002:4002"
+      - "50051:50051"
+    environment:
+      SERVICE_NAME: product-service
+      HTTP_PORT: 4002
+      GRPC_PORT: 50051
+      MONGO_URI: mongodb://product-mongo:27017/product_db
+      KAFKA_BROKERS: kafka:9092
+      REDIS_URL: redis://redis:6379
+      ORDER_CREATED_CONSUMER_GROUP: product-service-order-created-v1
+    restart: on-failure
     depends_on:
       - kafka
       - redis
@@ -67,6 +92,17 @@ services:
     build:
       context: .
       dockerfile: docker/order-service.Dockerfile
+    ports:
+      - "4003:4003"
+    environment:
+      SERVICE_NAME: order-service
+      HTTP_PORT: 4003
+      MONGO_URI: mongodb://order-mongo:27017/order_db
+      KAFKA_BROKERS: kafka:9092
+      REDIS_URL: redis://redis:6379
+      PRODUCT_GRPC_ADDR: product-service:50051
+      ORDER_IDEMPOTENCY_TTL_SECONDS: 300
+    restart: on-failure
     depends_on:
       - kafka
       - redis

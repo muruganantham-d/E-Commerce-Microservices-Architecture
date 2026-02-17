@@ -1,0 +1,19 @@
+
+> @ecom/order-service@0.1.0 start
+> node src/server.js
+
+[order-service] Connected MongoDB mongodb://localhost:27019/order_db
+[order-service] Connected Redis redis://localhost:6379
+{"level":"WARN","timestamp":"2026-02-16T19:05:33.004Z","logger":"kafkajs","message":"KafkaJS v2.0.0 switched default partitioner. To retain the same partitioning behavior as in previous versions, create the producer with the option \"createPartitioner: Partitioners.LegacyPartitioner\". See the migration guide at https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner for details. Silence this warning by setting the environment variable \"KAFKAJS_NO_PARTITIONER_WARNING=1\""}
+[order-service] Connected Kafka brokers=localhost:9092
+[order-service] Connected gRPC ProductService localhost:50052
+[order-service] HTTP listening on 3003
+[order-service] Published order.created eventId=e893b0f1-f2be-4dc3-a4ca-0cddb07c756f key=ord_28e369edb492 topic=ecom.order.order.v1
+[order-service] Created orderId=ord_28e369edb492
+npm error Lifecycle script `start` failed with error:
+npm error code 4294967295
+npm error path T:\z_micro_2026\ecommerce-microservices\services\order-service
+npm error workspace @ecom/order-service@0.1.0
+npm error location T:\z_micro_2026\ecommerce-microservices\services\order-service
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c node src/server.js

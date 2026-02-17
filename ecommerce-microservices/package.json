@@ -9,6 +9,11 @@
   "scripts": {
     "dev": "echo wire service dev scripts",
     "dev:infra": "docker compose up -d zookeeper kafka redis auth-mongo product-mongo order-mongo",
+    "start:auth": "npm run start -w services/auth-service",
+    "start:product": "npm run start -w services/product-service",
+    "start:order": "npm run start -w services/order-service",
+    "demo": "node demo-order-flow.js",
+    "demo:order-flow": "node scripts/demo-order-flow.js",
     "build": "npm run -ws build --if-present",
     "test": "npm run -ws test --if-present",
     "lint": "npm run -ws lint --if-present"

@@ -1,2 +1,30 @@
-﻿syntax = "proto3";
+syntax = "proto3";
+
 package product.v1;
+
+service ProductService {
+  rpc CheckAndReserveStock(CheckAndReserveStockRequest) returns (CheckAndReserveStockResponse);
+}
+
+message OrderItem {
+  string productId = 1;
+  int32 quantity = 2;
+}
+
+message ReservedItem {
+  string productId = 1;
+  int32 quantity = 2;
+  int32 remainingStock = 3;
+}
+
+message CheckAndReserveStockRequest {
+  string orderId = 1;
+  string userId = 2;
+  repeated OrderItem items = 3;
+}
+
+message CheckAndReserveStockResponse {
+  bool success = 1;
+  string message = 2;
+  repeated ReservedItem reservedItems = 3;
+}

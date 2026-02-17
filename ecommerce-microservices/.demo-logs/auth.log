@@ -1,0 +1,16 @@
+
+> @ecom/auth-service@0.1.0 start
+> node src/server.js
+
+[auth-service] Connected MongoDB mongodb://localhost:27017/auth_db
+{"level":"WARN","timestamp":"2026-02-16T19:05:32.112Z","logger":"kafkajs","message":"KafkaJS v2.0.0 switched default partitioner. To retain the same partitioning behavior as in previous versions, create the producer with the option \"createPartitioner: Partitioners.LegacyPartitioner\". See the migration guide at https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner for details. Silence this warning by setting the environment variable \"KAFKAJS_NO_PARTITIONER_WARNING=1\""}
+[auth-service] Connected Kafka brokers=localhost:9092
+[auth-service] HTTP listening on 3001
+[auth-service] Published user.created eventId=3a2eb149-2063-4363-838c-4fde3f304342 key=usr_2bba97c2a2cb topic=ecom.auth.user.v1
+npm error Lifecycle script `start` failed with error:
+npm error code 4294967295
+npm error path T:\z_micro_2026\ecommerce-microservices\services\auth-service
+npm error workspace @ecom/auth-service@0.1.0
+npm error location T:\z_micro_2026\ecommerce-microservices\services\auth-service
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c node src/server.js

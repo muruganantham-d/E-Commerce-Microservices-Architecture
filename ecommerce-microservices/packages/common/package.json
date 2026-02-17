@@ -4,7 +4,7 @@
   "private": true,
   "main": "src/index.js",
   "dependencies": {
-    "@ecom/contracts": "workspace:*",
+    "@ecom/contracts": "file:../contracts",
     "ajv": "^8.17.1"
   }
 }

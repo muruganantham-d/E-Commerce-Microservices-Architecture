@@ -1,0 +1,25 @@
+
+> @ecom/product-service@0.1.0 start
+> node src/server.js
+
+[product-service] Connected MongoDB mongodb://localhost:27018/product_db
+[product-service] Connected Redis redis://localhost:6379
+{"level":"WARN","timestamp":"2026-02-16T19:05:33.006Z","logger":"kafkajs","message":"KafkaJS v2.0.0 switched default partitioner. To retain the same partitioning behavior as in previous versions, create the producer with the option \"createPartitioner: Partitioners.LegacyPartitioner\". See the migration guide at https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner for details. Silence this warning by setting the environment variable \"KAFKAJS_NO_PARTITIONER_WARNING=1\""}
+[product-service] Connected Kafka brokers=localhost:9092
+[product-service] gRPC listening on 50052
+(node:35000) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"level":"INFO","timestamp":"2026-02-16T19:05:33.179Z","logger":"kafkajs","message":"[Consumer] Starting","groupId":"product-service-order-created-v1"}
+{"level":"INFO","timestamp":"2026-02-16T19:05:36.639Z","logger":"kafkajs","message":"[ConsumerGroup] Consumer has joined the group","groupId":"product-service-order-created-v1","memberId":"product-service-runtime-6c091090-e19b-48d1-a8ff-9754a9696fbc","leaderId":"product-service-runtime-6c091090-e19b-48d1-a8ff-9754a9696fbc","isLeader":true,"memberAssignment":{"ecom.order.order.v1":[0]},"groupProtocol":"RoundRobinAssigner","duration":3458}
+[product-service] Kafka consumer subscribed topic=ecom.order.order.v1 group=product-service-order-created-v1
+[product-service] HTTP listening on 3002
+[product-service] Published inventory.updated eventId=1bf8b230-81f3-43f0-9178-9525e7c7c5db key=prd_ce7e9f363890 topic=ecom.product.inventory.v1
+[product-service] Reserved stock for orderId=ord_28e369edb492 items=1
+[product-service] Consumed order.created status=processed orderId=ord_28e369edb492
+npm error Lifecycle script `start` failed with error:
+npm error code 4294967295
+npm error path T:\z_micro_2026\ecommerce-microservices\services\product-service
+npm error workspace @ecom/product-service@0.1.0
+npm error location T:\z_micro_2026\ecommerce-microservices\services\product-service
+npm error command failed
+npm error command C:\WINDOWS\system32\cmd.exe /d /s /c node src/server.js
