@@ -1,14 +1,16 @@
-﻿{
+{
   "name": "ecommerce-microservices",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
     "services/*",
-    "packages/*"
+    "packages/*",
+    "ecom-web"
   ],
   "scripts": {
     "dev": "echo wire service dev scripts",
     "dev:infra": "docker compose up -d zookeeper kafka redis auth-mongo product-mongo order-mongo",
+    "dev:web": "npm run dev -w ecom-web",
     "start:auth": "npm run start -w services/auth-service",
     "start:product": "npm run start -w services/product-service",
     "start:order": "npm run start -w services/order-service",

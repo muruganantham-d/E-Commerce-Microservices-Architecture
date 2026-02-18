@@ -83,3 +83,4 @@ function createAuthRouter({ authEventPublisher }) {
 module.exports = {
   createAuthRouter
 };
+

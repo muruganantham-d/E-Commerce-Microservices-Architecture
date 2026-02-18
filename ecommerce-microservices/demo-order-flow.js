@@ -71,9 +71,14 @@ async function main() {
   });
   printStep("Inventory after order", inventoryAfter);
 
-  console.log(
-    `[demo] inventory_delta=${Number(inventoryBefore.inventory) - Number(inventoryAfter.inventory)}`
-  );
+  const inventoryDelta = Number(inventoryBefore.inventory) - Number(inventoryAfter.inventory);
+  console.log(`[demo] inventory_delta=${inventoryDelta}`);
+
+  if (inventoryDelta !== 2) {
+    throw new Error(`Expected inventory delta=2, observed delta=${inventoryDelta}`);
+  }
+
+  console.log("[demo] PASS: order flow inventory changed by expected quantity.");
 }
 
 async function postJson(url, body, headers = {}) {

@@ -1,4 +1,5 @@
 # E-Commerce Microservices (Event-Driven)
+[![CI](https://github.com/muruganantham-d/E-Commerce-Microservices-Architecture/actions/workflows/ci.yml/badge.svg)](https://github.com/muruganantham-d/E-Commerce-Microservices-Architecture/actions/workflows/ci.yml)
 
 Monorepo for an event-driven e-commerce backend with:
 - `auth-service` (HTTP + MongoDB)
@@ -25,6 +26,27 @@ node demo-order-flow.js
 - Product starts at inventory `10`
 - Order quantity is `2`
 - Inventory ends at `8` (`10 -> 8`)
+
+## Run Backend + Frontend Together
+1. Start backend stack:
+```bash
+docker compose up -d --build
+```
+2. Install dependencies (root with workspaces):
+```bash
+npm install
+```
+3. Start Vite frontend:
+```bash
+npm run dev:web
+```
+4. Open frontend:
+- `http://localhost:5173` or `http://127.0.0.1:5173`
+
+Frontend defaults:
+- `VITE_AUTH_BASE_URL=http://127.0.0.1:4001`
+- `VITE_PRODUCT_BASE_URL=http://127.0.0.1:4002`
+- `VITE_ORDER_BASE_URL=http://127.0.0.1:4003`
 
 ## Reliability Demos
 - HTTP idempotency (same `Idempotency-Key` twice, same `orderId`, inventory decremented once):

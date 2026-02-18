@@ -13,6 +13,25 @@ function createSku() {
 function createProductRouter() {
   const router = express.Router();
 
+  router.get("/", async (_req, res, next) => {
+    try {
+      const products = await Product.find({}).sort({ createdAt: -1 }).lean();
+      return res.status(200).json(
+        products.map((product) => ({
+          productId: product.productId,
+          sku: product.sku,
+          name: product.name,
+          price: product.price,
+          currency: product.currency,
+          inventory: product.inventory,
+          isActive: product.isActive
+        }))
+      );
+    } catch (error) {
+      return next(error);
+    }
+  });
+
   router.post("/", async (req, res, next) => {
     try {
       const { productId, sku, name, price, currency = "USD", inventory = 0, isActive = true } = req.body || {};

@@ -5,3 +5,5 @@ coverage/
 .env.*
 !.env.example
 npm-debug.log*
+ecom-web/node_modules/
+ecom-web/dist/

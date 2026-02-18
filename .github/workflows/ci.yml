@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-demo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ecommerce-microservices
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: ecommerce-microservices/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm run test
+
+      - name: Build and start stack
+        run: |
+          set -euo pipefail
+          attempts=3
+          for i in $(seq 1 "${attempts}"); do
+            if docker compose up -d --build; then
+              echo "docker compose up succeeded on attempt ${i}"
+              exit 0
+            fi
+            echo "docker compose up failed on attempt ${i}"
+            sleep 10
+          done
+          echo "docker compose up failed after ${attempts} attempts"
+          exit 1
+
+      - name: Wait for health endpoints
+        run: |
+          set -euo pipefail
+
+          wait_for_health() {
+            local url="$1"
+            local attempts=60
+            local delay_seconds=2
+
+            echo "Checking ${url}"
+            for i in $(seq 1 "${attempts}"); do
+              if curl -fsS "${url}" > /dev/null; then
+                echo "Healthy: ${url}"
+                return 0
+              fi
+              sleep "${delay_seconds}"
+            done
+
+            echo "Health check failed: ${url}"
+            return 1
+          }
+
+          wait_for_health "http://127.0.0.1:4001/health"
+          wait_for_health "http://127.0.0.1:4002/health"
+          wait_for_health "http://127.0.0.1:4003/health"
+
+      - name: Run order flow demo
+        env:
+          AUTH_BASE_URL: http://127.0.0.1:4001
+          PRODUCT_BASE_URL: http://127.0.0.1:4002
+          ORDER_BASE_URL: http://127.0.0.1:4003
+        run: node demo-order-flow.js
+
+      - name: Run idempotency demo
+        env:
+          AUTH_BASE_URL: http://127.0.0.1:4001
+          PRODUCT_BASE_URL: http://127.0.0.1:4002
+          ORDER_BASE_URL: http://127.0.0.1:4003
+        run: node demo-idempotency.js
+
+      - name: Print container logs on failure
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: Tear down stack
+        if: always()
+        run: docker compose down -v
