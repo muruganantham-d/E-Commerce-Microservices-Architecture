@@ -4,6 +4,8 @@ import { createProduct, getProductById, listProducts } from "./api/product.clien
 import { placeOrder } from "./api/order.client";
 import { useAuthStore } from "./store/auth.store";
 
+const ORDER_LOGS_STORAGE_KEY = "ecom-web-order-logs";
+
 function parseError(error) {
   const message =
     error &&
@@ -16,6 +18,24 @@ function parseError(error) {
   }
 
   return error && error.message ? error.message : "Unexpected error";
+}
+
+function loadInitialOrderLogs() {
+  try {
+    const raw = localStorage.getItem(ORDER_LOGS_STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed.slice(0, 8);
+  } catch (_error) {
+    return [];
+  }
 }
 
 function App() {
@@ -38,7 +58,7 @@ function App() {
 
   const [orderBusyByProductId, setOrderBusyByProductId] = useState({});
   const [quantityByProductId, setQuantityByProductId] = useState({});
-  const [orderLogs, setOrderLogs] = useState([]);
+  const [orderLogs, setOrderLogs] = useState(loadInitialOrderLogs);
 
   const userId = useMemo(() => (user ? user.userId : ""), [user]);
 
@@ -58,6 +78,10 @@ function App() {
   useEffect(() => {
     refreshProducts();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(ORDER_LOGS_STORAGE_KEY, JSON.stringify(orderLogs));
+  }, [orderLogs]);
 
   async function handleLogin(event) {
     event.preventDefault();
